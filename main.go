@@ -15,7 +15,11 @@ import (
 
 func main() {
 	// Load environment variables
-	godotenv.Load()
+	err := godotenv.Load()
+	if err != nil {
+		fmt.Println("Error loading .env file:", err)
+		return
+	}
 	host := os.Getenv("DB_HOST")
 	port := os.Getenv("DB_PORT")
 	user := os.Getenv("DB_USER")
