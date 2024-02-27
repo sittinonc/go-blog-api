@@ -20,7 +20,7 @@ type Blog struct {
 	Content  string
 	PostDate string
 	UserID   uint
-	User     User `gorm:"foreignKey:UserID"`
+	Author   User `gorm:"foreignKey:UserID"`
 	Comments []Comment
 	Tags     []Tag `gorm:"many2many:blog_tags;"`
 }
@@ -30,7 +30,7 @@ type Comment struct {
 	Content  string
 	PostDate string
 	UserID   uint
-	User     User `gorm:"foreignKey:UserID"`
+	Author   User `gorm:"foreignKey:UserID"`
 	BlogID   uint
 	Blog     Blog `gorm:"foreignKey:BlogID"`
 }
