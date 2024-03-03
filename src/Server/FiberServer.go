@@ -13,9 +13,10 @@ type ServerConfig struct {
 }
 
 type ServerControllers struct {
-	BlogController Controllers.BlogController
-	UserController Controllers.UserController
-	TagController  Controllers.TagController
+	UserController    Controllers.UserController
+	BlogController    Controllers.BlogController
+	CommentController Controllers.CommentController
+	TagController     Controllers.TagController
 }
 
 type FiberServer struct {
@@ -45,6 +46,7 @@ func NewFiberServer(config *ServerConfig, controllers *ServerControllers) *Fiber
 	f.initBlogRoutes(server)
 	f.initUserRoutes(server)
 	f.initTagRoutes(server)
+	f.initCommentRoutes(server)
 
 	return f
 }
