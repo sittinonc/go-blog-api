@@ -10,16 +10,22 @@ type UserService struct {
 }
 
 type IUserService interface {
-	CreateUser(user DatabaseModels.User) error
+	CreateUser(username string, email string, profileImageUrl string) error
 	GetUserByID(id uint) (DatabaseModels.User, error)
-	UpdateUser(user DatabaseModels.User) error
+	UpdateUser(userId uint, username string, email string, profileImageUrl string) error
 }
 
 func NewUserService(userRepo GormPsqlRepo.UserRepository) IUserService {
 	return &UserService{userRepo}
 }
 
-func (us *UserService) CreateUser(user DatabaseModels.User) error {
+func (us *UserService) CreateUser(username string, email string, profileImageUrl string) error {
+	user := DatabaseModels.User{
+		Username:        username,
+		Email:           email,
+		ProfileImageUrl: profileImageUrl,
+	}
+
 	return us.userRepo.CreateUser(user)
 }
 
@@ -27,6 +33,12 @@ func (us *UserService) GetUserByID(id uint) (DatabaseModels.User, error) {
 	return us.userRepo.GetUserByID(id)
 }
 
-func (us *UserService) UpdateUser(user DatabaseModels.User) error {
-	return us.userRepo.UpdateUser(user)
+func (us *UserService) UpdateUser(userId uint, username string, email string, profileImageUrl string) error {
+	user := DatabaseModels.User{
+		Username:        username,
+		Email:           email,
+		ProfileImageUrl: profileImageUrl,
+	}
+
+	return us.userRepo.UpdateUser(userId, user)
 }
