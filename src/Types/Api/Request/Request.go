@@ -41,6 +41,10 @@ type UpdateCommentRequest struct {
 	Content   string `json:"content"`
 }
 
+type GetTagByIDsRequest struct {
+	TagIDs []uint `json:"tagIDs"`
+}
+
 type CreateTagRequest struct {
 	Name string `json:"name"`
 }
