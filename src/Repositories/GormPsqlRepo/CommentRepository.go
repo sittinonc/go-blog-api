@@ -13,7 +13,7 @@ type CommentRepository struct {
 type ICommentRepository interface {
 	CreateComment(comment DatabaseModels.Comment) error
 	GetCommentByID(id uint) (DatabaseModels.Comment, error)
-	UpdateComment(comment DatabaseModels.Comment) error
+	UpdateComment(id uint, comment DatabaseModels.Comment) error
 	DeleteComment(id uint) error
 }
 
@@ -31,8 +31,14 @@ func (cr *CommentRepository) GetCommentByID(id uint) (DatabaseModels.Comment, er
 	return comment, err
 }
 
-func (cr *CommentRepository) UpdateComment(comment DatabaseModels.Comment) error {
-	return cr.db.Save(&comment).Error
+func (cr *CommentRepository) UpdateComment(id uint, comment DatabaseModels.Comment) error {
+	var existingComment DatabaseModels.Comment
+	if err := cr.db.First(&existingComment, id).Error; err != nil {
+		return err
+	}
+
+	existingComment = comment
+	return cr.db.Save(&existingComment).Error
 }
 
 func (cr *CommentRepository) DeleteComment(id uint) error {
