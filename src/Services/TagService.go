@@ -12,8 +12,8 @@ type TagService struct {
 type ITagService interface {
 	GetAllTags() error
 	GetTagsByIDs(ids []uint) []DatabaseModels.Tag
-	CreateTag(tag DatabaseModels.Tag) error
-	UpdateTag(tag DatabaseModels.Tag) error
+	CreateTag(name string) error
+	UpdateTag(id uint, name string) error
 	DeleteTag(id uint) error
 }
 
@@ -29,12 +29,20 @@ func (ts *TagService) GetTagsByIDs(ids []uint) []DatabaseModels.Tag {
 	return ts.tagRepo.GetTagsByIDs(ids)
 }
 
-func (ts *TagService) CreateTag(tag DatabaseModels.Tag) error {
+func (ts *TagService) CreateTag(name string) error {
+	tag := DatabaseModels.Tag{
+		Name: name,
+	}
+
 	return ts.tagRepo.CreateTag(tag)
 }
 
-func (ts *TagService) UpdateTag(tag DatabaseModels.Tag) error {
-	return ts.tagRepo.UpdateTag(tag)
+func (ts *TagService) UpdateTag(id uint, name string) error {
+	tag := DatabaseModels.Tag{
+		Name: name,
+	}
+
+	return ts.tagRepo.UpdateTag(id, tag)
 }
 
 func (ts *TagService) DeleteTag(id uint) error {

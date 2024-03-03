@@ -14,7 +14,7 @@ type ITagRepository interface {
 	GetAllTags() error
 	GetTagsByIDs(ids []uint) []DatabaseModels.Tag
 	CreateTag(tag DatabaseModels.Tag) error
-	UpdateTag(tag DatabaseModels.Tag) error
+	UpdateTag(id uint, tag DatabaseModels.Tag) error
 	DeleteTag(id uint) error
 }
 
@@ -37,8 +37,14 @@ func (tr *TagRepository) CreateTag(tag DatabaseModels.Tag) error {
 	return tr.db.Create(&tag).Error
 }
 
-func (tr *TagRepository) UpdateTag(tag DatabaseModels.Tag) error {
-	return tr.db.Save(&tag).Error
+func (tr *TagRepository) UpdateTag(id uint, tag DatabaseModels.Tag) error {
+	var existingTag DatabaseModels.Tag
+	if err := tr.db.First(&existingTag, id).Error; err != nil {
+		return err
+	}
+
+	existingTag = tag
+	return tr.db.Save(&existingTag).Error
 }
 
 func (tr *TagRepository) DeleteTag(id uint) error {
