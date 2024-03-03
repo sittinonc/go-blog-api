@@ -13,8 +13,8 @@ type BlogController struct {
 
 type IBlogController interface {
 	CreateBlog(request Request.CreateBlogRequest) Response.OperationResponse[error]
-	GetBlogByID(id uint) Response.OperationResponse[ViewModels.Blog]
 	UpdateBlog(request Request.UpdateBlogRequest) Response.OperationResponse[error]
+	GetBlogByID(id uint) Response.OperationResponse[ViewModels.Blog]
 	DeleteBlog(id uint) Response.OperationResponse[error]
 }
 
@@ -34,6 +34,19 @@ func (bc *BlogController) CreateBlog(request Request.CreateBlogRequest) Response
 	}
 	response.Success = true
 	response.Message = "Blog created successfully"
+	return response
+}
+
+func (bc *BlogController) UpdateBlog(request Request.UpdateBlogRequest) Response.OperationResponse[error] {
+	response := Response.OperationResponse[error]{Success: false, Message: "", Data: nil}
+	err := bc.blogService.UpdateBlog(request.UserID, request.Title, request.Content, request.Tags)
+	if err != nil {
+		response.Success = false
+		response.Message = err.Error()
+		return response
+	}
+	response.Success = true
+	response.Message = "Blog updated successfully"
 	return response
 }
 
@@ -63,19 +76,6 @@ func (bc *BlogController) GetBlogByID(id uint) Response.OperationResponse[ViewMo
 	}
 	response.Data = blogViewModel
 
-	return response
-}
-
-func (bc *BlogController) UpdateBlog(request Request.UpdateBlogRequest) Response.OperationResponse[error] {
-	response := Response.OperationResponse[error]{Success: false, Message: "", Data: nil}
-	err := bc.blogService.UpdateBlog(request.UserID, request.Title, request.Content, request.Tags)
-	if err != nil {
-		response.Success = false
-		response.Message = err.Error()
-		return response
-	}
-	response.Success = true
-	response.Message = "Blog updated successfully"
 	return response
 }
 

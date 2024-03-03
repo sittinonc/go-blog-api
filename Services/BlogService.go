@@ -36,10 +36,6 @@ func (bs *BlogService) CreateBlog(userId uint, title string, content string, tag
 	return bs.blogRepo.CreateBlog(blog)
 }
 
-func (bs *BlogService) GetBlogByID(id uint) (DatabaseModels.Blog, error) {
-	return bs.blogRepo.GetBlogByID(id)
-}
-
 func (bs *BlogService) UpdateBlog(userId uint, title string, content string, tags []uint) error {
 	// mock data
 	mockTags := []DatabaseModels.Tag{}
@@ -54,6 +50,10 @@ func (bs *BlogService) UpdateBlog(userId uint, title string, content string, tag
 	}
 
 	return bs.blogRepo.UpdateBlog(blog)
+}
+
+func (bs *BlogService) GetBlogByID(id uint) (DatabaseModels.Blog, error) {
+	return bs.blogRepo.GetBlogByID(id)
 }
 
 func (bs *BlogService) DeleteBlog(id uint) error {
