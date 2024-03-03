@@ -4,7 +4,6 @@ import (
 	"web-api/src/Models/DatabaseModels"
 
 	"web-api/src/Repositories/GormPsqlRepo"
-	"web-api/src/Types/Api/Request"
 )
 
 type TagService struct {
@@ -13,7 +12,7 @@ type TagService struct {
 
 type ITagService interface {
 	GetAllTags() ([]DatabaseModels.Tag, error)
-	GetTagsByIDs(request Request.GetTagByIDsRequest) ([]DatabaseModels.Tag, error)
+	GetTagsByIDs(ids []uint) ([]DatabaseModels.Tag, error)
 	CreateTag(name string) error
 	UpdateTag(id uint, name string) error
 	DeleteTag(id uint) error
@@ -27,8 +26,8 @@ func (ts *TagService) GetAllTags() ([]DatabaseModels.Tag, error) {
 	return ts.tagRepo.GetAllTags()
 }
 
-func (ts *TagService) GetTagsByIDs(request Request.GetTagByIDsRequest) ([]DatabaseModels.Tag, error) {
-	return ts.tagRepo.GetTagsByIDs(request.TagIDs)
+func (ts *TagService) GetTagsByIDs(ids []uint) ([]DatabaseModels.Tag, error) {
+	return ts.tagRepo.GetTagsByIDs(ids)
 }
 
 func (ts *TagService) CreateTag(name string) error {

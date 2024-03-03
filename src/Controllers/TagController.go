@@ -13,7 +13,7 @@ type TagController struct {
 
 type ITagController interface {
 	GetAllTags() Response.OperationResponse[[]ViewModels.Tag]
-	GetTagByIDs(ids []uint) Response.OperationResponse[[]ViewModels.Tag]
+	GetTagByIDs(request Request.GetTagByIDsRequest) Response.OperationResponse[[]ViewModels.Tag]
 	CreateTag(request Request.CreateTagRequest) Response.OperationResponse[error]
 	UpdateTag(request Request.UpdateTagRequest) Response.OperationResponse[error]
 	DeleteTag(id uint) Response.OperationResponse[error]
@@ -45,9 +45,9 @@ func (tc *TagController) GetAllTags() Response.OperationResponse[[]ViewModels.Ta
 	return response
 }
 
-func (tc *TagController) GetTagByIDs(ids []uint) Response.OperationResponse[[]ViewModels.Tag] {
+func (tc *TagController) GetTagByIDs(request Request.GetTagByIDsRequest) Response.OperationResponse[[]ViewModels.Tag] {
 	response := Response.OperationResponse[[]ViewModels.Tag]{Success: false, Message: "", Data: []ViewModels.Tag{}}
-	tags, err := tc.tagService.GetTagsByIDs(ids)
+	tags, err := tc.tagService.GetTagsByIDs(request.TagIDs)
 	if err != nil {
 		response.Success = false
 		response.Message = err.Error()
