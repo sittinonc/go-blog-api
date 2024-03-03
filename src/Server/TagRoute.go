@@ -36,7 +36,7 @@ func (f FiberServer) GetTagByIDs(c *fiber.Ctx) error {
 		return c.Status(400).JSON(fiber.Map{"error": "Invalid request"})
 	}
 
-	data := f.Controllers.TagController.GetTagByIDs(request.TagIDs)
+	data := f.Controllers.TagController.GetTagByIDs(request)
 	if !data.Success {
 		return c.Status(500).JSON(data)
 	}
