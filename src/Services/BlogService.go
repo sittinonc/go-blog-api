@@ -1,6 +1,7 @@
 package Services
 
 import (
+	"time"
 	"web-api/src/Models/DatabaseModels"
 	"web-api/src/Repositories/GormPsqlRepo"
 )
@@ -21,14 +22,12 @@ func NewBlogService(blogRepo GormPsqlRepo.BlogRepository) IBlogService {
 }
 
 func (bs *BlogService) CreateBlog(userId uint, title string, content string, tags []DatabaseModels.Tag) error {
-	// mock data
-	mockPostDate := "2021-01-01"
 
 	blog := DatabaseModels.Blog{
 		UserID:   userId,
 		Title:    title,
 		Content:  content,
-		PostDate: mockPostDate,
+		PostDate: time.Now().Format("2006-01-02 00:00:00"),
 		Tags:     tags,
 	}
 
@@ -36,14 +35,12 @@ func (bs *BlogService) CreateBlog(userId uint, title string, content string, tag
 }
 
 func (bs *BlogService) UpdateBlog(userId uint, title string, content string, tags []DatabaseModels.Tag) error {
-	// mock data
-	mockPostDate := "2021-01-01"
 
 	blog := DatabaseModels.Blog{
 		UserID:   userId,
 		Title:    title,
 		Content:  content,
-		PostDate: mockPostDate,
+		PostDate: time.Now().Format("2006-01-02 00:00:00"),
 		Tags:     tags,
 	}
 
