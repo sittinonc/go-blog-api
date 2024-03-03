@@ -14,16 +14,16 @@ type BlogRoute struct {
 
 func (f FiberServer) initBlogRoutes(base fiber.Router) {
 	r := base.Group("/blog")
-	r.Get("/:id", f.GetBlogByID)
+	r.Get("/:blogId", f.GetBlogByID)
 	r.Post("/", f.CreateBlog)
 	r.Put("/", f.UpdateBlog)
-	r.Delete("/:id", f.DeleteBlog)
+	r.Delete("/:blogId", f.DeleteBlog)
 }
 
 func (f FiberServer) GetBlogByID(c *fiber.Ctx) error {
-	id, err := strconv.Atoi(c.Params("id"))
+	id, err := strconv.Atoi(c.Params("blogId"))
 	if err != nil {
-		return c.Status(400).JSON(fiber.Map{"error": "Invalid ID"})
+		return c.Status(400).JSON(fiber.Map{"error": "Invalid Blog ID"})
 	}
 
 	data := f.Controllers.BlogController.GetBlogByID(uint(id))
@@ -63,9 +63,9 @@ func (f FiberServer) UpdateBlog(c *fiber.Ctx) error {
 }
 
 func (f FiberServer) DeleteBlog(c *fiber.Ctx) error {
-	id, err := strconv.Atoi(c.Params("id"))
+	id, err := strconv.Atoi(c.Params("blogId"))
 	if err != nil {
-		return c.Status(400).JSON(fiber.Map{"error": "Invalid ID"})
+		return c.Status(400).JSON(fiber.Map{"error": "Invalid Blog ID"})
 	}
 
 	data := f.Controllers.BlogController.DeleteBlog(uint(id))
