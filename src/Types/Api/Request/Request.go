@@ -40,3 +40,12 @@ type UpdateCommentRequest struct {
 	BlogID    uint   `json:"blogID"`
 	Content   string `json:"content"`
 }
+
+type CreateTagRequest struct {
+	Name string `json:"name"`
+}
+
+type UpdateTagRequest struct {
+	TagID uint   `json:"tagID"`
+	Name  string `json:"name"`
+}
