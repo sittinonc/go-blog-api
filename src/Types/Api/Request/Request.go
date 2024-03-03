@@ -22,7 +22,7 @@ type CreateUserRequest struct {
 }
 
 type UpdateUserRequest struct {
-	UserID          uint   `json:"id"`
+	UserID          uint   `json:"userID"`
 	Username        string `json:"username"`
 	Email           string `json:"email"`
 	ProfileImageUrl string `json:"image"`
