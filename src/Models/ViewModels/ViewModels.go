@@ -21,7 +21,7 @@ type Comment struct {
 	CommentID uint   `json:"id"`
 	Author    User   `json:"author"`
 	Content   string `json:"content"`
-	Date      string `json:"date"`
+	PostDate  string `json:"date"`
 }
 
 type Tag struct {
