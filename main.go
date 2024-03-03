@@ -1,24 +1,18 @@
 package main
 
 import (
-	"log"
-
-	"web-api/Models/DatabaseModels"
-
 	"fmt"
 	"os"
+	FiberServer "web-api/src/Server"
 
 	"github.com/joho/godotenv"
-	"gorm.io/driver/postgres"
-	"gorm.io/gorm"
 )
 
-func main() {
-	// Load environment variables
+func initEnvironment() FiberServer.ServerConfig {
 	err := godotenv.Load()
 	if err != nil {
 		fmt.Println("Error loading .env file:", err)
-		return
+		return FiberServer.ServerConfig{}
 	}
 	host := os.Getenv("DB_HOST")
 	port := os.Getenv("DB_PORT")
@@ -27,17 +21,16 @@ func main() {
 	password := os.Getenv("DB_PASSWORD")
 	sslmode := os.Getenv("DB_SSLMODE")
 
-	dsn := fmt.Sprintf("host=%s port=%s user=%s dbname=%s password=%s sslmode=%s", host, port, user, dbname, password, sslmode)
-
-	// Connect to the database
-	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
-	if err != nil {
-		log.Fatal(err)
+	return FiberServer.ServerConfig{
+		Port:            os.Getenv("SERVER_PORT"),
+		DatabaseAddress: fmt.Sprintf("host=%s port=%s user=%s dbname=%s password=%s sslmode=%s", host, port, user, dbname, password, sslmode),
 	}
+}
 
-	// Auto-migrate the schema
-	err = db.AutoMigrate(&DatabaseModels.User{}, &DatabaseModels.Blog{}, &DatabaseModels.Comment{}, &DatabaseModels.Tag{})
-	if err != nil {
-		log.Fatal(err)
-	}
+func main() {
+	config := initEnvironment()
+	controllers := FiberServer.ServerControllers{}
+	server := FiberServer.NewFiberServer(&config, &controllers)
+
+	server.Fiber.Listen(":" + config.Port)
 }
