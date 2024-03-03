@@ -25,13 +25,19 @@ func NewBlogController(blogService Services.BlogService, tagService Services.Tag
 
 func (bc *BlogController) CreateBlog(request Request.CreateBlogRequest) Response.OperationResponse[error] {
 	response := Response.OperationResponse[error]{Success: false, Message: "", Data: nil}
-	tags := bc.tagService.GetTagsByIDs(request.Tags)
-
-	err := bc.blogService.CreateBlog(request.UserID, request.Title, request.Content, tags)
-	if err != nil {
+	tags, tagErr := bc.tagService.GetTagsByIDs(request.Tags)
+	if tagErr != nil {
 		response.Success = false
-		response.Message = err.Error()
-		response.Data = err
+		response.Message = tagErr.Error()
+		response.Data = tagErr
+		return response
+	}
+
+	blogErr := bc.blogService.CreateBlog(request.UserID, request.Title, request.Content, tags)
+	if blogErr != nil {
+		response.Success = false
+		response.Message = blogErr.Error()
+		response.Data = blogErr
 		return response
 
 	}
@@ -42,12 +48,18 @@ func (bc *BlogController) CreateBlog(request Request.CreateBlogRequest) Response
 
 func (bc *BlogController) UpdateBlog(request Request.UpdateBlogRequest) Response.OperationResponse[error] {
 	response := Response.OperationResponse[error]{Success: false, Message: "", Data: nil}
-	tags := bc.tagService.GetTagsByIDs(request.Tags)
-
-	err := bc.blogService.UpdateBlog(request.UserID, request.Title, request.Content, tags)
-	if err != nil {
+	tags, tagErr := bc.tagService.GetTagsByIDs(request.Tags)
+	if tagErr != nil {
 		response.Success = false
-		response.Message = err.Error()
+		response.Message = tagErr.Error()
+		response.Data = tagErr
+		return response
+	}
+
+	blogRrr := bc.blogService.UpdateBlog(request.UserID, request.Title, request.Content, tags)
+	if blogRrr != nil {
+		response.Success = false
+		response.Message = blogRrr.Error()
 		return response
 	}
 	response.Success = true
