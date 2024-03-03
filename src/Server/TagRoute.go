@@ -15,7 +15,7 @@ type TagRoute struct {
 func (f FiberServer) initTagRoutes(base fiber.Router) {
 	r := base.Group("/tag")
 	r.Get("/", f.GetAllTags)
-	r.Get("/:tagId", f.GetTagByIDs)
+	r.Get("/", f.GetTagByIDs)
 	r.Post("/", f.CreateTag)
 	r.Put("/", f.UpdateTag)
 	r.Delete("/:tagId", f.DeleteTag)
