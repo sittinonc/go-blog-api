@@ -12,6 +12,7 @@ type TagRepository struct {
 
 type ITagRepository interface {
 	GetAllTags() error
+	GetTagsByIDs(ids []uint) []DatabaseModels.Tag
 	CreateTag(tag DatabaseModels.Tag) error
 	UpdateTag(tag DatabaseModels.Tag) error
 	DeleteTag(id uint) error
@@ -23,6 +24,13 @@ func NewTagRepository(db *gorm.DB) ITagRepository {
 
 func (tr *TagRepository) GetAllTags() error {
 	return tr.db.Find(&[]DatabaseModels.Tag{}).Error
+}
+
+func (tr *TagRepository) GetTagsByIDs(ids []uint) []DatabaseModels.Tag {
+	var tags []DatabaseModels.Tag
+	tr.db.Where("id IN ?", ids).Find(&tags)
+	return tags
+
 }
 
 func (tr *TagRepository) CreateTag(tag DatabaseModels.Tag) error {

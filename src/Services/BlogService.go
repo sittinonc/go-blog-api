@@ -10,9 +10,9 @@ type BlogService struct {
 }
 
 type IBlogService interface {
-	CreateBlog(userId uint, title string, content string, tags []uint) error
+	CreateBlog(userId uint, title string, content string, tags []DatabaseModels.Tag) error
 	GetBlogByID(id uint) (DatabaseModels.Blog, error)
-	UpdateBlog(userId uint, title string, content string, tags []uint) error
+	UpdateBlog(userId uint, title string, content string, tags []DatabaseModels.Tag) error
 	DeleteBlog(id uint) error
 }
 
@@ -20,9 +20,8 @@ func NewBlogService(blogRepo GormPsqlRepo.BlogRepository) IBlogService {
 	return &BlogService{blogRepo}
 }
 
-func (bs *BlogService) CreateBlog(userId uint, title string, content string, tags []uint) error {
+func (bs *BlogService) CreateBlog(userId uint, title string, content string, tags []DatabaseModels.Tag) error {
 	// mock data
-	mockTags := []DatabaseModels.Tag{}
 	mockPostDate := "2021-01-01"
 
 	blog := DatabaseModels.Blog{
@@ -30,15 +29,14 @@ func (bs *BlogService) CreateBlog(userId uint, title string, content string, tag
 		Title:    title,
 		Content:  content,
 		PostDate: mockPostDate,
-		Tags:     mockTags,
+		Tags:     tags,
 	}
 
 	return bs.blogRepo.CreateBlog(blog)
 }
 
-func (bs *BlogService) UpdateBlog(userId uint, title string, content string, tags []uint) error {
+func (bs *BlogService) UpdateBlog(userId uint, title string, content string, tags []DatabaseModels.Tag) error {
 	// mock data
-	mockTags := []DatabaseModels.Tag{}
 	mockPostDate := "2021-01-01"
 
 	blog := DatabaseModels.Blog{
@@ -46,7 +44,7 @@ func (bs *BlogService) UpdateBlog(userId uint, title string, content string, tag
 		Title:    title,
 		Content:  content,
 		PostDate: mockPostDate,
-		Tags:     mockTags,
+		Tags:     tags,
 	}
 
 	return bs.blogRepo.UpdateBlog(blog)

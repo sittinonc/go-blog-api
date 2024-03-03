@@ -11,6 +11,7 @@ type TagService struct {
 
 type ITagService interface {
 	GetAllTags() error
+	GetTagsByIDs(ids []uint) []DatabaseModels.Tag
 	CreateTag(tag DatabaseModels.Tag) error
 	UpdateTag(tag DatabaseModels.Tag) error
 	DeleteTag(id uint) error
@@ -22,6 +23,10 @@ func NewTagService(tagRepo GormPsqlRepo.TagRepository) ITagService {
 
 func (ts *TagService) GetAllTags() error {
 	return ts.tagRepo.GetAllTags()
+}
+
+func (ts *TagService) GetTagsByIDs(ids []uint) []DatabaseModels.Tag {
+	return ts.tagRepo.GetTagsByIDs(ids)
 }
 
 func (ts *TagService) CreateTag(tag DatabaseModels.Tag) error {

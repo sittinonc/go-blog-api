@@ -9,6 +9,7 @@ import (
 
 type BlogController struct {
 	blogService Services.BlogService
+	tagService  Services.TagService
 }
 
 type IBlogController interface {
@@ -18,13 +19,15 @@ type IBlogController interface {
 	DeleteBlog(id uint) Response.OperationResponse[error]
 }
 
-func NewBlogController(blogService Services.BlogService) IBlogController {
-	return &BlogController{blogService}
+func NewBlogController(blogService Services.BlogService, tagService Services.TagService) IBlogController {
+	return &BlogController{blogService: blogService, tagService: tagService}
 }
 
 func (bc *BlogController) CreateBlog(request Request.CreateBlogRequest) Response.OperationResponse[error] {
 	response := Response.OperationResponse[error]{Success: false, Message: "", Data: nil}
-	err := bc.blogService.CreateBlog(request.UserID, request.Title, request.Content, request.Tags)
+	tags := bc.tagService.GetTagsByIDs(request.Tags)
+
+	err := bc.blogService.CreateBlog(request.UserID, request.Title, request.Content, tags)
 	if err != nil {
 		response.Success = false
 		response.Message = err.Error()
@@ -39,7 +42,9 @@ func (bc *BlogController) CreateBlog(request Request.CreateBlogRequest) Response
 
 func (bc *BlogController) UpdateBlog(request Request.UpdateBlogRequest) Response.OperationResponse[error] {
 	response := Response.OperationResponse[error]{Success: false, Message: "", Data: nil}
-	err := bc.blogService.UpdateBlog(request.UserID, request.Title, request.Content, request.Tags)
+	tags := bc.tagService.GetTagsByIDs(request.Tags)
+
+	err := bc.blogService.UpdateBlog(request.UserID, request.Title, request.Content, tags)
 	if err != nil {
 		response.Success = false
 		response.Message = err.Error()
