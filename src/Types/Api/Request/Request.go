@@ -27,3 +27,16 @@ type UpdateUserRequest struct {
 	Email           string `json:"email"`
 	ProfileImageUrl string `json:"image"`
 }
+
+type CreateCommentRequest struct {
+	UserID  uint   `json:"userID"`
+	BlogID  uint   `json:"blogID"`
+	Content string `json:"content"`
+}
+
+type UpdateCommentRequest struct {
+	CommentID uint   `json:"commentID"`
+	UserID    uint   `json:"userID"`
+	BlogID    uint   `json:"blogID"`
+	Content   string `json:"content"`
+}
