@@ -1,8 +1,8 @@
 package Utils
 
 import (
-	"web-api/src/Models/DatabaseModels"
-	"web-api/src/Models/ViewModels"
+	"web-api/Models/DatabaseModels"
+	"web-api/Models/ViewModels"
 )
 
 func UserDbToViewModel(user DatabaseModels.User) ViewModels.User {

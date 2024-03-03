@@ -2,8 +2,8 @@ package Services
 
 import (
 	"time"
-	"web-api/src/Models/DatabaseModels"
-	"web-api/src/Repositories/GormPsqlRepo"
+	"web-api/Models/DatabaseModels"
+	"web-api/Repositories/GormPsqlRepo"
 )
 
 type BlogService struct {

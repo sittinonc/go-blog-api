@@ -1,10 +1,10 @@
 package Controllers
 
 import (
-	"web-api/src/Models/ViewModels"
-	"web-api/src/Services"
-	"web-api/src/Types/Api/Request"
-	"web-api/src/Types/Api/Response"
+	"web-api/Models/ViewModels"
+	"web-api/Services"
+	"web-api/Types/Api/Request"
+	"web-api/Types/Api/Response"
 )
 
 type UserController struct {

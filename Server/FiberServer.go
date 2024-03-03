@@ -1,7 +1,7 @@
 package FiberServer
 
 import (
-	"web-api/src/Controllers"
+	"web-api/Controllers"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"

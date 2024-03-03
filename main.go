@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 	"os"
-	FiberServer "web-api/src/Server"
+	FiberServer "web-api/Server"
 
 	"github.com/joho/godotenv"
 )

@@ -1,7 +1,7 @@
 package GormPsqlRepo
 
 import (
-	"web-api/src/Models/DatabaseModels"
+	"web-api/Models/DatabaseModels"
 
 	"gorm.io/gorm"
 )

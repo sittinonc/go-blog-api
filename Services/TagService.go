@@ -1,9 +1,9 @@
 package Services
 
 import (
-	"web-api/src/Models/DatabaseModels"
+	"web-api/Models/DatabaseModels"
 
-	"web-api/src/Repositories/GormPsqlRepo"
+	"web-api/Repositories/GormPsqlRepo"
 )
 
 type TagService struct {

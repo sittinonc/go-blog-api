@@ -2,8 +2,8 @@ package FiberServer
 
 import (
 	"strconv"
-	"web-api/src/Controllers"
-	"web-api/src/Types/Api/Request"
+	"web-api/Controllers"
+	"web-api/Types/Api/Request"
 
 	"github.com/gofiber/fiber/v2"
 )
