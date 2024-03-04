@@ -7,7 +7,7 @@ import (
 )
 
 type BlogService struct {
-	blogRepo GormPsqlRepo.BlogRepository
+	blogRepo GormPsqlRepo.IBlogRepository
 }
 
 type IBlogService interface {
@@ -17,7 +17,7 @@ type IBlogService interface {
 	DeleteBlog(id uint) error
 }
 
-func NewBlogService(blogRepo GormPsqlRepo.BlogRepository) IBlogService {
+func NewBlogService(blogRepo GormPsqlRepo.IBlogRepository) IBlogService {
 	return &BlogService{blogRepo}
 }
 

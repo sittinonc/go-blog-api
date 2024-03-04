@@ -7,7 +7,7 @@ import (
 )
 
 type TagService struct {
-	tagRepo GormPsqlRepo.TagRepository
+	tagRepo GormPsqlRepo.ITagRepository
 }
 
 type ITagService interface {
@@ -18,7 +18,7 @@ type ITagService interface {
 	DeleteTag(id uint) error
 }
 
-func NewTagService(tagRepo GormPsqlRepo.TagRepository) ITagService {
+func NewTagService(tagRepo GormPsqlRepo.ITagRepository) ITagService {
 	return &TagService{tagRepo}
 }
 

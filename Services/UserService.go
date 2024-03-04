@@ -6,7 +6,7 @@ import (
 )
 
 type UserService struct {
-	userRepo GormPsqlRepo.UserRepository
+	userRepo GormPsqlRepo.IUserRepository
 }
 
 type IUserService interface {
@@ -15,7 +15,7 @@ type IUserService interface {
 	UpdateUser(userId uint, username string, email string, profileImageUrl string) error
 }
 
-func NewUserService(userRepo GormPsqlRepo.UserRepository) IUserService {
+func NewUserService(userRepo GormPsqlRepo.IUserRepository) IUserService {
 	return &UserService{userRepo}
 }
 

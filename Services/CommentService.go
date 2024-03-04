@@ -7,7 +7,7 @@ import (
 )
 
 type CommentService struct {
-	commentRepo GormPsqlRepo.CommentRepository
+	commentRepo GormPsqlRepo.ICommentRepository
 }
 
 type ICommentService interface {
@@ -17,7 +17,7 @@ type ICommentService interface {
 	DeleteComment(id uint) error
 }
 
-func NewCommentService(commentRepo GormPsqlRepo.CommentRepository) ICommentService {
+func NewCommentService(commentRepo GormPsqlRepo.ICommentRepository) ICommentService {
 	return &CommentService{commentRepo}
 }
 
