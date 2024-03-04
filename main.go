@@ -3,9 +3,14 @@ package main
 import (
 	"fmt"
 	"os"
+	"web-api/Controllers"
+	"web-api/Repositories/GormPsqlRepo"
 	FiberServer "web-api/Server"
+	"web-api/Services"
 
 	"github.com/joho/godotenv"
+	"gorm.io/driver/postgres"
+	"gorm.io/gorm"
 )
 
 func initEnvironment() FiberServer.ServerConfig {
@@ -26,11 +31,31 @@ func initEnvironment() FiberServer.ServerConfig {
 		DatabaseAddress: fmt.Sprintf("host=%s port=%s user=%s dbname=%s password=%s sslmode=%s", host, port, user, dbname, password, sslmode),
 	}
 }
+func InitDB(config FiberServer.ServerConfig) *gorm.DB {
+	db, err := gorm.Open(postgres.Open(config.DatabaseAddress), &gorm.Config{})
+	if err != nil {
+		panic("failed to connect database")
+	}
+	return db
+}
+
+func InitRepositories(db *gorm.DB) (GormPsqlRepo.IUserRepository, GormPsqlRepo.IBlogRepository, GormPsqlRepo.ICommentRepository, GormPsqlRepo.ITagRepository) {
+	return GormPsqlRepo.NewUserRepository(db), GormPsqlRepo.NewBlogRepository(db), GormPsqlRepo.NewCommentRepository(db), GormPsqlRepo.NewTagRepository(db)
+}
+
+func InitServices(userRepo GormPsqlRepo.IUserRepository, blogRepo GormPsqlRepo.IBlogRepository, commentRepo GormPsqlRepo.ICommentRepository, tagRepo GormPsqlRepo.ITagRepository) (Services.IUserService, Services.IBlogService, Services.ICommentService, Services.ITagService) {
+	return Services.NewUserService(userRepo), Services.NewBlogService(blogRepo), Services.NewCommentService(commentRepo), Services.NewTagService(tagRepo)
+}
 
 func main() {
 	config := initEnvironment()
-	controllers := FiberServer.ServerControllers{}
-	server := FiberServer.NewFiberServer(&config, &controllers)
+	db := InitDB(config)
+	userRepo, blogRepo, commentRepo, tagRepo := InitRepositories(db)
+	userService, blogService, commentService, tagService := InitServices(userRepo, blogRepo, commentRepo, tagRepo)
+
+	controllers := Controllers.New(userService, blogService, commentService, tagService)
+
+	server := FiberServer.NewFiberServer(&config, controllers)
 
 	server.Fiber.Listen(":" + config.Port)
 }
