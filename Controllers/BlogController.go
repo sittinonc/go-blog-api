@@ -8,8 +8,8 @@ import (
 )
 
 type BlogController struct {
-	blogService Services.BlogService
-	tagService  Services.TagService
+	blogService Services.IBlogService
+	tagService  Services.ITagService
 }
 
 type IBlogController interface {
@@ -19,7 +19,7 @@ type IBlogController interface {
 	DeleteBlog(id uint) Response.OperationResponse[error]
 }
 
-func NewBlogController(blogService Services.BlogService, tagService Services.TagService) IBlogController {
+func NewBlogController(blogService Services.IBlogService, tagService Services.ITagService) IBlogController {
 	return &BlogController{blogService: blogService, tagService: tagService}
 }
 

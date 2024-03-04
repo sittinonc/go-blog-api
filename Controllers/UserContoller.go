@@ -8,7 +8,7 @@ import (
 )
 
 type UserController struct {
-	userService Services.UserService
+	userService Services.IUserService
 }
 
 type IUserController interface {
@@ -17,7 +17,7 @@ type IUserController interface {
 	GetUserByID(id uint) Response.OperationResponse[ViewModels.User]
 }
 
-func NewUserController(userService Services.UserService) IUserController {
+func NewUserController(userService Services.IUserService) IUserController {
 	return &UserController{userService: userService}
 }
 

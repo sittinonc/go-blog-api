@@ -9,7 +9,7 @@ import (
 )
 
 type CommentController struct {
-	commentService Services.CommentService
+	commentService Services.ICommentService
 }
 
 type ICommentController interface {
@@ -19,7 +19,7 @@ type ICommentController interface {
 	DeleteComment(id uint) Response.OperationResponse[error]
 }
 
-func NewCommentController(commentService Services.CommentService) ICommentController {
+func NewCommentController(commentService Services.ICommentService) ICommentController {
 	return &CommentController{commentService: commentService}
 }
 

@@ -8,7 +8,7 @@ import (
 )
 
 type TagController struct {
-	tagService Services.TagService
+	tagService Services.ITagService
 }
 
 type ITagController interface {
@@ -19,7 +19,7 @@ type ITagController interface {
 	DeleteTag(id uint) Response.OperationResponse[error]
 }
 
-func NewTagController(tagService Services.TagService) ITagController {
+func NewTagController(tagService Services.ITagService) ITagController {
 	return &TagController{tagService: tagService}
 }
 
