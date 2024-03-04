@@ -12,20 +12,13 @@ type ServerConfig struct {
 	DatabaseAddress string
 }
 
-type ServerControllers struct {
-	UserController    Controllers.UserController
-	BlogController    Controllers.BlogController
-	CommentController Controllers.CommentController
-	TagController     Controllers.TagController
-}
-
 type FiberServer struct {
 	Config      *ServerConfig
 	Fiber       *fiber.App
-	Controllers *ServerControllers
+	Controllers *Controllers.ServerControllers
 }
 
-func NewFiberServer(config *ServerConfig, controllers *ServerControllers) *FiberServer {
+func NewFiberServer(config *ServerConfig, controllers *Controllers.ServerControllers) *FiberServer {
 	server := fiber.New(fiber.Config{
 		CaseSensitive: false,
 	})
