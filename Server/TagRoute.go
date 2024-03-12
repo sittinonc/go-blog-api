@@ -12,7 +12,7 @@ type TagRoute struct {
 	TagController Controllers.TagController
 }
 
-func (f FiberServer) initTagRoutes(base fiber.Router) {
+func (f *FiberServer) initTagRoutes(base fiber.Router) {
 	r := base.Group("/tag")
 	r.Get("/", f.GetAllTags)
 	r.Get("/", f.GetTagByIDs)
@@ -21,7 +21,7 @@ func (f FiberServer) initTagRoutes(base fiber.Router) {
 	r.Delete("/:tagId", f.DeleteTag)
 }
 
-func (f FiberServer) GetAllTags(c *fiber.Ctx) error {
+func (f *FiberServer) GetAllTags(c *fiber.Ctx) error {
 	data := f.Controllers.TagController.GetAllTags()
 	if !data.Success {
 		return c.Status(500).JSON(data)
@@ -30,7 +30,7 @@ func (f FiberServer) GetAllTags(c *fiber.Ctx) error {
 	return c.Status(200).JSON(data)
 }
 
-func (f FiberServer) GetTagByIDs(c *fiber.Ctx) error {
+func (f *FiberServer) GetTagByIDs(c *fiber.Ctx) error {
 	var request Request.GetTagByIDsRequest
 	if err := c.BodyParser(&request); err != nil {
 		return c.Status(400).JSON(fiber.Map{"error": "Invalid request"})
@@ -44,7 +44,7 @@ func (f FiberServer) GetTagByIDs(c *fiber.Ctx) error {
 	return c.Status(200).JSON(data)
 }
 
-func (f FiberServer) CreateTag(c *fiber.Ctx) error {
+func (f *FiberServer) CreateTag(c *fiber.Ctx) error {
 	var request Request.CreateTagRequest
 	if err := c.BodyParser(&request); err != nil {
 		return c.Status(400).JSON(fiber.Map{"error": "Invalid request"})
@@ -58,7 +58,7 @@ func (f FiberServer) CreateTag(c *fiber.Ctx) error {
 	return c.Status(200).JSON(data)
 }
 
-func (f FiberServer) UpdateTag(c *fiber.Ctx) error {
+func (f *FiberServer) UpdateTag(c *fiber.Ctx) error {
 	var request Request.UpdateTagRequest
 	if err := c.BodyParser(&request); err != nil {
 		return c.Status(400).JSON(fiber.Map{"error": "Invalid request"})
@@ -72,7 +72,7 @@ func (f FiberServer) UpdateTag(c *fiber.Ctx) error {
 	return c.Status(200).JSON(data)
 }
 
-func (f FiberServer) DeleteTag(c *fiber.Ctx) error {
+func (f *FiberServer) DeleteTag(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("tagId"))
 	if err != nil {
 		return c.Status(400).JSON(fiber.Map{"error": "Invalid Tag ID"})

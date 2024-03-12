@@ -12,7 +12,7 @@ type CommentRoute struct {
 	CommentController Controllers.CommentController
 }
 
-func (f FiberServer) initCommentRoutes(base fiber.Router) {
+func (f *FiberServer) initCommentRoutes(base fiber.Router) {
 	r := base.Group("/comment")
 	r.Get("/:commentId", f.GetCommentByID)
 	r.Post("/", f.CreateComment)
@@ -20,7 +20,7 @@ func (f FiberServer) initCommentRoutes(base fiber.Router) {
 	r.Delete("/:commentId", f.DeleteComment)
 }
 
-func (f FiberServer) GetCommentByID(c *fiber.Ctx) error {
+func (f *FiberServer) GetCommentByID(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("commentId"))
 	if err != nil {
 		return c.Status(400).JSON(fiber.Map{"error": "Invalid Comment ID"})
@@ -34,7 +34,7 @@ func (f FiberServer) GetCommentByID(c *fiber.Ctx) error {
 	return c.Status(200).JSON(data)
 }
 
-func (f FiberServer) CreateComment(c *fiber.Ctx) error {
+func (f *FiberServer) CreateComment(c *fiber.Ctx) error {
 	var request Request.CreateCommentRequest
 	if err := c.BodyParser(&request); err != nil {
 		return c.Status(400).JSON(fiber.Map{"error": "Invalid request"})
@@ -48,7 +48,7 @@ func (f FiberServer) CreateComment(c *fiber.Ctx) error {
 	return c.Status(200).JSON(data)
 }
 
-func (f FiberServer) UpdateComment(c *fiber.Ctx) error {
+func (f *FiberServer) UpdateComment(c *fiber.Ctx) error {
 	var request Request.UpdateCommentRequest
 	if err := c.BodyParser(&request); err != nil {
 		return c.Status(400).JSON(fiber.Map{"error": "Invalid request"})
@@ -62,7 +62,7 @@ func (f FiberServer) UpdateComment(c *fiber.Ctx) error {
 	return c.Status(200).JSON(data)
 }
 
-func (f FiberServer) DeleteComment(c *fiber.Ctx) error {
+func (f *FiberServer) DeleteComment(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("commentId"))
 	if err != nil {
 		return c.Status(400).JSON(fiber.Map{"error": "Invalid Comment ID"})

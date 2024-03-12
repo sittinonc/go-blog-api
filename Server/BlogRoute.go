@@ -20,7 +20,7 @@ func (f FiberServer) initBlogRoutes(base fiber.Router) {
 	r.Delete("/:blogId", f.DeleteBlog)
 }
 
-func (f FiberServer) GetBlogByID(c *fiber.Ctx) error {
+func (f *FiberServer) GetBlogByID(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("blogId"))
 	if err != nil {
 		return c.Status(400).JSON(fiber.Map{"error": "Invalid Blog ID"})
@@ -34,7 +34,7 @@ func (f FiberServer) GetBlogByID(c *fiber.Ctx) error {
 	return c.Status(200).JSON(data)
 }
 
-func (f FiberServer) CreateBlog(c *fiber.Ctx) error {
+func (f *FiberServer) CreateBlog(c *fiber.Ctx) error {
 	var request Request.CreateBlogRequest
 	if err := c.BodyParser(&request); err != nil {
 		return c.Status(400).JSON(fiber.Map{"error": "Invalid request"})
@@ -48,7 +48,7 @@ func (f FiberServer) CreateBlog(c *fiber.Ctx) error {
 	return c.Status(200).JSON(data)
 }
 
-func (f FiberServer) UpdateBlog(c *fiber.Ctx) error {
+func (f *FiberServer) UpdateBlog(c *fiber.Ctx) error {
 	var request Request.UpdateBlogRequest
 	if err := c.BodyParser(&request); err != nil {
 		return c.Status(400).JSON(fiber.Map{"error": "Invalid request"})
@@ -62,7 +62,7 @@ func (f FiberServer) UpdateBlog(c *fiber.Ctx) error {
 	return c.Status(200).JSON(data)
 }
 
-func (f FiberServer) DeleteBlog(c *fiber.Ctx) error {
+func (f *FiberServer) DeleteBlog(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("blogId"))
 	if err != nil {
 		return c.Status(400).JSON(fiber.Map{"error": "Invalid Blog ID"})
